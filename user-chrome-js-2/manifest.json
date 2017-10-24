@@ -1,0 +1,18 @@
+{
+	"manifest_version": 2,
+	"applications": {
+		"gecko": {
+			"id": "user-chrome-js-2@qw.linux-2g64.local"
+		}
+	},
+	"name": "__MSG_extensionName__",
+	"version": "0.1",
+	"description": "__MSG_extensionDescription__",
+	"permissions": [
+		"experiments.qwuserchromejs1"
+	],
+	"background": {
+		"scripts": []
+	},
+	"default_locale": "en"
+}
