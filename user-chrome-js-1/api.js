@@ -1,12 +1,11 @@
 const { classes: Cc, interfaces: Ci, results: Cr, utils: Cu } = Components
 Cu.import("resource://gre/modules/Services.jsm")
 
-const file = Services.dirsvc.get("ProfD", Ci.nsIFile)
-file.append('chrome')
+const file = Services.dirsvc.get("UChrm", Ci.nsIFile)
 file.append('userChrome.js')
 
-function* getAllWindows(type) {
-	const enumerator = Services.wm.getEnumerator('navigator:browser');
+function* getAllWindows(type = 'navigator:browser') {
+	const enumerator = Services.wm.getEnumerator(type);
 	while (enumerator.hasMoreElements()) yield enumerator.getNext()
 }
 
