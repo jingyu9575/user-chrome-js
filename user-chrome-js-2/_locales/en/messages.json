@@ -1,8 +1,0 @@
-{
-	"extensionName": {
-		"message": "userChrome.js Support (2)"
-	},
-	"extensionDescription": {
-		"message": "Provides support for userChrome.js"
-	}
-}

@@ -2,21 +2,17 @@
 <RDF 
 	xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
 	xmlns:em="http://www.mozilla.org/2004/em-rdf#">
-	<!--
-        The first part of the id (before the @) must match the namespace used
-        in api.js and schema.json.
-    -->
 	<Description about="urn:mozilla:install-manifest">
-		<em:id>qwuserchromejs1@experiments.addons.mozilla.org</em:id>
-		<em:name>userChrome.js Support (1)</em:name>
-		<em:type>256</em:type>
-		<em:version>0.1</em:version>
+		<em:id>user-chrome-js@qw.linux-2g64.local</em:id>
+		<em:name>userChrome.js Support</em:name>
+		<em:type>2</em:type>
+		<em:version>0.2</em:version>
 		<em:description>Provides support for userChrome.js</em:description>
-		<em:creator>qw.linux-2g64.local</em:creator>
+		<em:creator>jingyu9575</em:creator>
 		<em:localized>
 			<Description>
 				<em:locale>zh-CN</em:locale>
-				<em:name>userChrome.js 支持 (1)</em:name>
+				<em:name>userChrome.js 支持</em:name>
 				<em:description>提供对 userChrome.js 的支持</em:description>
 			</Description>
 		</em:localized>
@@ -28,5 +24,7 @@
 				<em:maxVersion>*</em:maxVersion>
 			</Description>
 		</em:targetApplication>
+		<em:multiprocessCompatible>true</em:multiprocessCompatible>
+		<em:bootstrap>true</em:bootstrap>
 	</Description>
 </RDF>
