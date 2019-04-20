@@ -1,0 +1,13 @@
+[
+	{
+		"namespace": "qwUserChromeJS",
+		"functions": [
+			{
+				"name": "activate",
+				"type": "function",
+				"async": true,
+				"parameters": []
+			}
+		]
+	}
+]

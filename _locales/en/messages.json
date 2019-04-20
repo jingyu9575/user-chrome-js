@@ -1,6 +1,6 @@
 {
 	"extensionName": {
-		"message": "userChrome.js Support (2)"
+		"message": "userChrome.js Support"
 	},
 	"extensionDescription": {
 		"message": "Provides support for userChrome.js"
