@@ -6,7 +6,7 @@
 		}
 	},
 	"name": "__MSG_extensionName__",
-	"version": "0.3",
+	"version": "0.4",
 	"description": "__MSG_extensionDescription__",
 	"experiment_apis": {
 		"qwUserChromeJS": {

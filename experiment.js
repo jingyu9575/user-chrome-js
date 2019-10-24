@@ -30,20 +30,19 @@ file.append('userChrome.js')
 
 const windowListener = {
 	onOpenWindow(xulWindow) {
-		void injectIntoWindow(file, xulWindow.QueryInterface(
-			Ci.nsIInterfaceRequestor).getInterface(Ci.nsIDOMWindow))
+		void injectIntoWindow(file, xulWindow.docShell.domWindow)
 	},
 }
 
 function startup() {
 	for (const v of enumerateXPCOM(Services.wm.getEnumerator(null)))
-		void injectIntoWindow(file, v.QueryInterface(Ci.nsIDOMWindow))
+		void injectIntoWindow(file, v)
 	Services.wm.addListener(windowListener)
 }
 
 function shutdown() {
 	for (const v of enumerateXPCOM(Services.wm.getEnumerator(null)))
-		removeFromWindow(v.QueryInterface(Ci.nsIDOMWindow))
+		removeFromWindow(v)
 	Services.wm.removeListener(windowListener)
 }
 
