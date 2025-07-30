@@ -2,8 +2,9 @@ const { classes: Cc, interfaces: Ci, results: Cr, utils: Cu } = Components
 try { Cu.import("resource://gre/modules/Services.jsm") } catch { }
 
 const scriptId = 'user-chrome-js-qw-linux-2g64-local'
+const chromeId = 'userchromejs_qw_linux_2g64_local'
 
-async function injectIntoWindow(file, window) {
+async function injectIntoWindow(window) {
 	try {
 		if (window.document.readyState !== "complete")
 			await new Promise(resolve => window.addEventListener("load", resolve))
@@ -11,7 +12,8 @@ async function injectIntoWindow(file, window) {
 			'http://www.w3.org/1999/xhtml', 'script')
 		script.id = scriptId
 		script.type = 'module'
-		script.src = 'file://' + file.path + '#' + (new Date()).getTime()
+		script.src = `chrome://${chromeId}/content/userChrome.js#` +
+			(new Date()).getTime()
 		window.document.documentElement.appendChild(script)
 	} catch (error) { console.error(error) }
 }
@@ -26,17 +28,30 @@ function* enumerateXPCOM(enumerator) {
 }
 
 const file = Services.dirsvc.get("UChrm", Ci.nsIFile)
-file.append('userChrome.js')
+file.append(chromeId)
+if (!file.exists()) file.create(Ci.nsIFile.DIRECTORY_TYPE, 0o755)
+file.append('v0')
+if (!file.exists()) file.create(Ci.nsIFile.DIRECTORY_TYPE, 0o755)
+file.append('chrome.manifest')
+if (!file.exists()) {
+	const stream = Cc["@mozilla.org/network/file-output-stream;1"]
+		.createInstance(Ci.nsIFileOutputStream)
+	stream.init(file, 0x02 | 0x08 | 0x20, 0o644, 0)
+	data = `content ${chromeId} ../../\n`
+	stream.write(data, data.length)
+	stream.close()
+}
+Components.manager.QueryInterface(Ci.nsIComponentRegistrar).autoRegister(file)
 
 const windowListener = {
 	onOpenWindow(xulWindow) {
-		void injectIntoWindow(file, xulWindow.docShell.domWindow)
+		void injectIntoWindow(xulWindow.docShell.domWindow)
 	},
 }
 
 function startup() {
 	for (const v of enumerateXPCOM(Services.wm.getEnumerator(null)))
-		void injectIntoWindow(file, v)
+		void injectIntoWindow(v)
 	Services.wm.addListener(windowListener)
 }
 
