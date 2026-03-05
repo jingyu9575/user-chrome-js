@@ -4,23 +4,30 @@ try { Cu.import("resource://gre/modules/Services.jsm") } catch { }
 const scriptId = 'user-chrome-js-qw-linux-2g64-local'
 const chromeId = 'userchromejs_qw_linux_2g64_local'
 
-async function injectIntoWindow(window) {
+function scriptInjector({ target: document }) {
 	try {
-		if (window.document.readyState !== "complete")
-			await new Promise(resolve => window.addEventListener("load", resolve))
-		const script = window.document.createElementNS(
+		if (document.getElementById(scriptId) ||
+			document.readyState !== "complete")
+			return
+		const script = document.createElementNS(
 			'http://www.w3.org/1999/xhtml', 'script')
 		script.id = scriptId
 		script.type = 'module'
 		script.src = `chrome://${chromeId}/content/userChrome.js#` +
 			(new Date()).getTime()
-		window.document.documentElement.appendChild(script)
+		document.documentElement.appendChild(script)
 	} catch (error) { console.error(error) }
+}
+
+async function injectIntoWindow(window) {
+	window.addEventListener("load", scriptInjector)
+	scriptInjector({ target: window.document })
 }
 
 function removeFromWindow(window) {
 	const script = window.document.getElementById(scriptId)
 	if (script) script.remove()
+	window.removeEventListener("load", scriptInjector)
 }
 
 function* enumerateXPCOM(enumerator) {
